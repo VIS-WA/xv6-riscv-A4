@@ -146,6 +146,11 @@ found:
   p->context.ra = (uint64)forkret;
   p->context.sp = p->kstack + PGSIZE;
 
+  // Initialize alarm
+ p->alarm_interval = 0;
+ p->alarm_passed = 0;
+ p->alarm_handler = 0;
+
   return p;
 }
 
@@ -295,6 +300,7 @@ fork(void)
     return -1;
   }
   np->sz = p->sz;
+  np->mask = p->mask;
 
   // copy saved user registers.
   *(np->trapframe) = *(p->trapframe);
